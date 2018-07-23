@@ -1,5 +1,5 @@
 const path = require('path');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
@@ -20,20 +20,32 @@ module.exports = {
       {
         test: /\.styl/,
         use: [
-          'style-loader',
           // MiniCssExtractPlugin.loader,
+          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'stylus-loader'
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '/staic/css/images/[name].[hash:8].[ext]'
+            }
+          }
+        ]        
       }
     ]
   },
   plugins: [
-    // new MiniCssExtractPlugin({
-    //   filename: 'static/css/[name].css',
-    //   chunkFilename: 'static/css[id].css'
-    // }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[chunkhash:8].css',
+      chunkFilename: '[id].css'
+    }),
     new HtmlWebpackPlugin({
       file: 'index.html',
       template: 'public/index.html'
