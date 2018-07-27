@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers, Reducer } from 'redux';
 import * as ActionTypes from './actionTypes';
 const initialState = {
   song: {},

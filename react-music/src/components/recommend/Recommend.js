@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
 import { getCarousel,getNewAlbum} from '@/api/recommend';
 import Swiper from 'swiper';
 import "swiper/dist/css/swiper.css"; //引入此路径，才不会打包出错
@@ -6,13 +7,16 @@ import './recommend.styl';
 import * as AlbumModel from '@/model/album';
 import { CODE_SUCCESS } from '../../api/config';
 import Scroll from '../../common/scroll/Scroll';
+import Loading from '../../common/loading/Loading';
+import Album from '../../containers/Album';
 class Recommend extends Component {
   constructor (props) {
     super(props);
     this.state = {
       sliderList: [],
       newAlbums: [], 
-      refreshScroll: false
+      refreshScroll: false,
+      loading: true
     }
   }
   componentDidMount () {
@@ -43,9 +47,10 @@ class Recommend extends Component {
           albumList.sort((a, b) =>{
             return new Date(b.public_time).getTime() - new Date(a.public_time).getTime();//以时间的倒叙来排序
           });
-          console.log(albumList);
+          // console.log(albumList);
           this.setState({
-            newAlbums:albumList
+            newAlbums:albumList,
+            loading: false
           }, () => {
             this.setState({refreshScroll:true})
           })
@@ -59,12 +64,22 @@ class Recommend extends Component {
       window.location.href = linkUrl;
     }
   }
+  toAlbumDetail(url){
+    /*scroll组件会派发一个点击事件，不能使用链接跳转*/
+    return  () => {
+      this.props.history.push({
+        pathname: url
+      });
+    }
+  }
   render() {
+    const { match } = this.props;
     const albums = this.state.newAlbums.map(item =>{
       console.log(item);
       const album = AlbumModel.createAlbumByList(item)
       return (
-        <div className="album-wrapper" key={album.mId}>
+        <div className="album-wrapper" key={album.mId}
+        onClick={this.toAlbumDetail(`${match.url + '/'+album.mId}`)}>
           <div className="left">
             <img src={album.img} width="100%" height="100%" alt={album.name}/>
           </div>
@@ -110,7 +125,8 @@ class Recommend extends Component {
         </div>
         </div>
       </Scroll>
-        
+      <Loading title="正在加载中..." show={this.state.loading}></Loading>
+      <Route path={`${match.url +'/:id'}`}  component={Album}/>
       </div>
     )
   }
