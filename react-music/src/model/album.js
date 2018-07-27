@@ -24,3 +24,14 @@ function filterSinger(singers) {
   });
   return singerArr.join("/");
 }
+
+export function createAlbumByDetail(data){
+  return new Album(
+    data.id,
+    data.mid,
+    data.name,
+    `http://y.gtimg.cn/music/photo_new/T002R300x300M000${data.mid}.jpg?max_age=2592000`,
+    data.singername,
+    data.aDate
+  );
+}

@@ -52,6 +52,7 @@ class Recommend extends Component {
             newAlbums:albumList,
             loading: false
           }, () => {
+            //刷新scroll
             this.setState({refreshScroll:true})
           })
         }
@@ -59,6 +60,7 @@ class Recommend extends Component {
     })
   }
   toLink(linkUrl) {
+    /*使用闭包把参数变为局部变量使用*/
     return () => {     //箭头函数不需要bind(this)
       console.log(this);
       window.location.href = linkUrl;

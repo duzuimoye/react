@@ -4,6 +4,7 @@ import Ranking from './ranking/Ranking';
 import Search from './search/Search';
 import { BrowserRouter as Router,Route, Switch, Redirect, NavLink } from 'react-router-dom';
 import '@/assets/stylus/reset.styl';
+import '@/assets/stylus/font.styl'
 import logo from '@/assets/imgs/logo.png';
 // import MiniPlayer from '@/containers/MiniPlayer';
 import MusicPlayer from '@/components/play/MusicPlayer'
