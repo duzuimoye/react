@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-sticky": "^6.0.3",
+    "umi-plugin-datahub": "^0.1.2"
+  }
+}
